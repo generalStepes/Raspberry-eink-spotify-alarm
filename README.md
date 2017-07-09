@@ -38,3 +38,5 @@ I’ve attached icons that I already processed myself, they’re cropped, conver
 *	I would like to add a button capability to stop the alarm when the button is pressed. <br />
 
 
+![alt text](https://github.com/generalStepes/Waveshare-eink-raspberry/blob/master/img/weather.jpg?raw=true)
+![alt text](https://github.com/generalStepes/Waveshare-eink-raspberry/blob/master/img/spotify.jpg?raw=true)
