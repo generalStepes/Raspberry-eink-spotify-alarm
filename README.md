@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-﻿# Raspberry E ink clock & Spotify alarm
-Disclaimer: The documentation was intended mainly for my personal use, but as I didn’t find any other similar project, I decided to publish it.
-=======
+
 # Raspberry E ink clock & Spotify alarm
-Disclaimer: this is a project that is by far not completed. The documentation was intended mainly for my personal use, but as I didn’t find any other similar projects, I decided to publish it.
->>>>>>> origin/master
+Disclaimer: The documentation was intended mainly for my personal use, but as I didn’t find any other similar project, I decided to publish it.
 
 ## Prerequisites <br />
 *	Raspberry Pi (RPI Zero in my case) <br />
@@ -20,19 +16,13 @@ Disclaimer: this is a project that is by far not completed. The documentation wa
 ## How does it work <br />
 The whole thing is divided into two parts: the day version and night version. The “Day” version displays clock, current date, day of week and weather information. The “night” version displays information about Spotify alarm. <br />
 <br />
-<<<<<<< HEAD
 *	Stuff is displayed on E-ink display via epd library. I use an E-ink display from Waveshare. <br />
   *	The display is updated once per minute, this is ensured by a cron job, after it gets updated, it’s put sleep and waken again during the next update <br /> 
-=======
-*	Stuff is displayed on E ink display via epd library. I use an E ink display from Waveshare. <br />
-  *	The display is updated once per minute, this is ensured by a cron job, after it gets updated, it’s put to sleep and waken again during the next update <br /> 
->>>>>>> origin/master
   *	The display is cleared when the current time (minute specifically) divided by 5 is 0, i.e. every 5th minute. <br />
 *	Weather information – are fetched via pyowm library from OpenWeatherMap, thus it’s necessary to create an OWM account.  <br />
 *	Spotify is provided by Mopidy, alarm clock capabilities by Mopidy Alarm Clock plugin. <br />
 *	The tricky part was how to know if there’s an alarm set up. I just fetch the webpage (e.g. http://192.168.2.110:6690/alarmclock/) and check if content is more than 3000 bytes. I’m able to tell if there’s an alarm set up or not as the page size differs significantly. Nothing to be proud about, but if it looks stupid and it works, it ain’t stupid, right? :-D <br />
 *	If there’s an alarm set up, I parse the downloaded webpage and find strings for the time and playlist, which then get displayed. <br />
-
 *	In case RPI is rebooted, alarm is restored from the "alarmLog" file
 
 ## How to make it work <br />
@@ -46,11 +36,9 @@ I’ve attached icons that I already processed myself, they’re cropped, conver
 *	I’m sure that there’re some issues with getting the playlist name correctly displayed, especially when foreign accents are used. I implemented a function to remove the ones used in Czech language as I didn’t want to waste time trying to import any fonts to the E-ink display. <br />
 *	I would like to add a button capability to stop the alarm when the button is pressed. <br />
 
-
-<<<<<<< HEAD
 ## Changelog <br />
 30th July - added support for alarm restoration if RPI is rebooted, clearer code, other fixes
-=======
+
 ![alt text](https://github.com/generalStepes/Waveshare-eink-raspberry/blob/master/img/weather.jpg?raw=true)
 ![alt text](https://github.com/generalStepes/Waveshare-eink-raspberry/blob/master/img/spotify.jpg?raw=true)
->>>>>>> origin/master
+
