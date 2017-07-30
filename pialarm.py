@@ -6,44 +6,84 @@ from datetime import datetime as date
 from pprint import pprint
 import httplib2
 import requests
-import RPi.GPIO as GPIO           # import RPi.GPIO module  
+import RPi.GPIO as GPIO  
 from epd import *
 from time import sleep
 import sys
 import datetime
 import pyowm
- 
+import os, sys 
+import ctypes
+import struct
+
+
+
+#alarmLog file location, change if necessary
+alarmLogLocation = "/home/pi/alarmLog"
+
+#for which city should the forecast be fetched
+forecastLocation = "Brno,cz"
+
+#apikey for OWM
+apiKey = 'enter you apikey'
+
+#gpio pin number where wakeup wire is connected
+GPIOPin = 12
+
+#mopidy port
+mopidyPort = "6690"
+
+
+
+#get system uptime
+#https://stackoverflow.com/questions/42471475/fastest-way-to-get-system-uptime-in-python-in-linux
+def uptime3():
+    libc = ctypes.CDLL('libc.so.6')
+    buf = ctypes.create_string_buffer(4096) # generous buffer to hold
+                                            # struct sysinfo
+    if libc.sysinfo(buf) != 0:
+        print('failed')
+        return -1
+
+    uptime = struct.unpack_from('@l', buf.raw)[0]
+    return uptime
+
+
 
 def getAlarmTime():
    h = httplib2.Http(".cache")
-   #replace here with your own url when mopidy runs
-   resp, content = h.request("http://127.0.0.1:6690/alarmclock", "GET")
+   resp, content = h.request("http://127.0.0.1:" + mopidyPort + "/alarmclock", "GET")
    headers={'cache-control':'no-cache'}
 
    if int(resp.values()[1]) < 3000:
 
       alarmTime=content[1495:1500]
-      #print alarmTime
       playlistEnd = content.find("with <strong>")
       playlist=content[1536:playlistEnd-10]
-      #print playlist
 
       return[alarmTime,playlist]
-   else: return(0)
+   else:
+       #fetch playlist code for playlist name  
+      global globalContent
+      globalContent = content
+      return(0)
 
 
 
 def displayWeather():
-   owm = pyowm.OWM('8192e4d27f9ba66ac79c1910207c751a')  # You MUST provide a valid API key
+   try:
+      os.remove(alarmLogLocation)
+   except:
+      pass
+   owm = pyowm.OWM(apiKey) 
 
 
 
    #weather
-   observation = owm.three_hours_forecast('Opava,cz')
+   observation = owm.three_hours_forecast(forecastLocation)
    w = observation.get_forecast().get_weathers()
    #second item is plus 3 hours
    w = w[1]
-   print w
    if "01d" in w.get_weather_icon_name(): todayIcon = "01D.BMP"
    if "01n" in w.get_weather_icon_name(): todayIcon = "01N.BMP"
    if "02d" in w.get_weather_icon_name(): todayIcon = "02D.BMP"
@@ -65,7 +105,7 @@ def displayWeather():
  
 
 
-   forecast = owm.daily_forecast("Opava,cz", limit=2)
+   forecast = owm.daily_forecast(forecastLocation , limit=2)
    f = forecast.get_forecast()
    lst = f.get_weathers()
    #for weather in f:
@@ -113,19 +153,36 @@ def displayWeather():
    return [todayIcon,tomorrowIcon,dayAfterTomorrowIcon,w,lst[0],lst[1]]
 
 
+def readAlarmLog():
+   try:
+      F = open(alarmLogLocation,"r")
+      playlistHour = F.readline().rstrip()
+      playlistName =  F.readline().rstrip()
+      #find encoded playlist name
+      playlistEndLocation = globalContent.find(playlistName)
+      playlistStartLocation = globalContent[0:playlistEndLocation].rfind("spotify")
+      playlistEncoded = globalContent[playlistStartLocation:playlistEndLocation-2]
+      #re-set the alarm if low uptime indicates that rpi has been rebooted recently, i.e. in 300 seconds
+      if uptime3() < 300:
+         r = requests.post("http://127.0.0.1:" + mopidyPort + "/alarmclock/set/", data={'time': playlistHour, 'playlist': playlistEncoded})
+         alarmTime = removeChars(playlistHour, playlistName)
+         return (alarmTime)
+      else:
+         return (0)
+   except:
+      return (0)
 
 
-
-alarmTime =  getAlarmTime()
-#alarmTime returns zero if alarmtime doesnt exist
-if alarmTime == 0: 
-   weatherStuff = displayWeather()
-else:
-   print alarmTime[1]
+def removeChars(alarmTime):
+   if alarmTime[0]:
+      F = open(alarmLogLocation,"w")
+      F.write(alarmTime[0])
+      F.write("\n")
+      F.write(alarmTime[1])
    alarmTime[1] = string.replace(alarmTime[1], "&amp;", "&")
    #crashes with that type of dash
-   alarmTime[1] = string.replace(alarmTime[1], "–", "-") 
-   #http://www.py.cz/Cestina2X
+   alarmTime[1] = string.replace(alarmTime[1], "–", "-")
+  #http://www.py.cz/Cestina2X
    #remove czech accents
    alarmTime[1] = unicode(alarmTime[1], 'utf-8')
    alarmTime[1] = unicodedata.normalize('NFKD', alarmTime[1])
@@ -136,12 +193,26 @@ else:
          output += c
 
    alarmTime[1] = output
+   return alarmTime
+
    
- #change GPIO here
-GPIO.setwarnings(False) #as we can setmode for gpio thats already been set
+#wait a bit so that mopidy initialises properly
+if uptime3()<120: quit()
+#readAlarmLog()
+alarmTime = getAlarmTime()
+#alarmTime returns zero if alarmtime doesnt exist, firstly try to fetch from website, ifnot load file, ifnot display weather
+if alarmTime == 0:
+   alarmTime = readAlarmLog()
+if alarmTime == 0: 
+      weatherStuff = displayWeather()
+else:
+   alarmTime = removeChars(alarmTime)
+
+ 
+GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BOARD)  
-GPIO.setup(12, GPIO.OUT) # set a port/pin as an output   
-GPIO.output(12, 1)       # set port/pin value to 1/GPIO.HIGH/True
+GPIO.setup(GPIOPin, GPIO.OUT) # set a port/pin as an output   
+GPIO.output(GPIOPin, 1)       # set port/pin value to 1/GPIO.HIGH/True
 
 
 now = datetime.datetime.now()
@@ -153,11 +224,9 @@ def english():
     epd_update()
 
 
-# display LCD digits in 3 sizes
+# display LCD digits 
 def lcd_digits():
     epd_lcd_digits(30,10,str(now.hour)+":"+ str(now.minute).zfill(2),scale=LCD_MD)
-    #sleep(3)
-    #epd_lcd_digits(0,300,'0:123',scale=LCD_LG)
 
 if __name__=="__main__":
     try:
@@ -166,13 +235,6 @@ if __name__=="__main__":
         sys.exit()
 
     if now.minute % 5 ==0: epd_clear()
-    # need some reaction time between each set of drawing commands
-    # this may be something to do with the instruction buffer of the epd
-    
-    # another known issue is if hundreds of draw pixel commands are
-    # sent over before calling an update (e.g. in a 2-D loop), the module
-    # and in my case, all my USB ports IO are frozen. I lose USB mouse and
-    # keyboard. Have to restart the computer to get things working again.
 
     #epd_set_memory_sd()                   # use internal memory (default)
     #epd_import_pic()                        # copy images from SD card to internal memory
@@ -206,6 +268,5 @@ if __name__=="__main__":
     epd_halt()                              # put EPD to sleep. to wake up pin by physical pin only
     epd_disconnect()
 
-#change GPIO here
 GPIO.output(12, 0)       # set port/pin value to 1/GPIO.LOW
    
