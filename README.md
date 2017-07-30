@@ -28,7 +28,7 @@ The whole thing is divided into two parts: the day version and night version. Th
 ## How to make it work <br />
 After fulfilling the prerequisites, there’re basically just few things that need to be modified in the python script. <br />
 *	Change GPIO pin number, url where Mopidy runs, OWM api key and the location where alarmLog should be saved if necessary <br />
-*	It order to get the icons work, copy them on FAT 32 formatted memory card, insert into the display and uncomment the epd_set_memory_sd(), epd_import_pic() and edp_set_memory_nand() parts, wait for a minute or run the script manually. After that the icons should work and you can remove these parts. <br />
+*	It order to get the icons work, copy them on FAT 32 formatted memory card, insert the card into the display and uncomment the epd_set_memory_sd(), epd_import_pic() and edp_set_memory_nand() parts in the script, wait for a minute or run the script manually. After that the icons should work and you can remove these parts. <br />
 
 I’ve attached icons that I already processed myself, they’re cropped, converted and are verified to be working. <br />
 
