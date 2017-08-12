@@ -20,7 +20,7 @@ The whole thing is divided into two parts: the day version and night version. Th
   *	The display is updated once per minute, this is ensured by a cron job, after it gets updated, it’s put sleep and waken again during the next update <br /> 
   *	The display is cleared when the current time (minute specifically) divided by 5 is 0, i.e. every 5th minute. <br />
 *	Weather information – are fetched via pyowm library from OpenWeatherMap, thus it’s necessary to create an OWM account.  <br />
-*	Spotify is provided by Mopidy, alarm clock capabilities by Mopidy Alarm Clock plugin. <br />
+*	Spotify is provided by Mopidy, alarm clock capabilities by Mopidy Alarm Clock plugin: https://github.com/DavisNT/mopidy-alarmclock. <br />
 *	The tricky part was how to know if there’s an alarm set up. I just fetch the webpage (e.g. http://192.168.2.110:6690/alarmclock/) and check if content is more than 3000 bytes. I’m able to tell if there’s an alarm set up or not as the page size differs significantly. Nothing to be proud about, but if it looks stupid and it works, it ain’t stupid, right? :-D <br />
 *	If there’s an alarm set up, I parse the downloaded webpage and find strings for the time and playlist, which then get displayed. <br />
 *	In case RPI is rebooted, alarm is restored from the "alarmLog" file
