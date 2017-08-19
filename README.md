@@ -3,6 +3,8 @@
 Disclaimer: The documentation was intended mainly for my personal use, but as I didn’t find any other similar project, I decided to publish it.
 
 ## Prerequisites <br />
+
+Core stuff <br />
 *	Raspberry Pi (RPI Zero in my case) <br />
 *	Network capabilities <br /> <br />
 *	E-ink display (Waveshare 4.3inch in my case) <br />
@@ -12,6 +14,17 @@ Disclaimer: The documentation was intended mainly for my personal use, but as I 
 *	Free OpenWeatherMap Account <br />
 *	All python libraries specified in the main file (note that epd library has to be configured separately) <br />
 *	Mopidy and Mopidy Alarm Clock plugin configured and working, make sure your Spotify account and audio work <br />
+
+Sound system <br />
+Apart from the Raspberry itself, it is necessary to get some other things in order to get the sound working.<br />
+In my case that meant: <br />
+*	USB hub + Wifi dongle as Raspberry Pi Zero doesn’t have wifi <br />
+*	DAC (originally, I intended to use a cheap 1 USD USB sound card as dac but I had issues with noise) <br />
+*	Amplifier – I’m using a cheap 2x3 W stereo amp based on pam8403 chip, powered on 3,3 V <br />
+*	Speakers – two 9 x 5 cm speakers <br />
+
+* Ground loop isolator – after putting all the stuff together I encountered some serious issues with noise – I could hear the power supply, wifi dongle and CPU in speakers. After eliminating other potential causes, only the amp and its poor electric design was left. As I didn’t want to get another one, I bought a ground loop isolator (specifically Audac TR-2070), which solved most of the noise issues. The rest got solved by powering the amp on 3,3 V instead of 5 V (powered directly from RPI GPIO pins). <br />
+
 
 ## How does it work <br />
 The whole thing is divided into two parts: the day version and night version. The “Day” version displays clock, current date, day of week and weather information. The “night” version displays information about Spotify alarm. <br />
@@ -34,10 +47,12 @@ I’ve attached icons that I already processed myself, they’re cropped, conver
 
 ## Known, expected issues and to-dos <br />
 *	I’m sure that there’re some issues with getting the playlist name correctly displayed, especially when foreign accents are used. I implemented a function to remove the ones used in Czech language as I didn’t want to waste time trying to import any fonts to the E-ink display. <br />
-*	I would like to add a button capability to stop the alarm when the button is pressed. <br />
+*	I would like to add a button capability to stop the alarm when the button is pressed - already done, not uploaded yet <br />
+* Box design as I am going to laser cut a box for the whole thingy <br />
 
 ## Changelog <br />
-30th July - added support for alarm restoration if RPI is rebooted, clearer code, other fixes
+30th July - added support for alarm restoration if RPI is rebooted, clearer code, other fixes <br />
+19th August - added sound system info <br />
 
 ![alt text](https://github.com/generalStepes/Waveshare-eink-raspberry/blob/master/img/weather.jpg?raw=true)
 ![alt text](https://github.com/generalStepes/Waveshare-eink-raspberry/blob/master/img/spotify.jpg?raw=true)
