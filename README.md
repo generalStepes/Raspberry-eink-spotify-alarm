@@ -2,7 +2,7 @@
 # Raspberry E ink clock & Spotify alarm
 Disclaimer: The documentation was intended mainly for my personal use, but as I didn’t find any other similar project, I decided to publish it.
 
-## Prerequisites <br />,
+## Prerequisites <br />
 
 * Files description: <br />
   * pialarm.py - the core file handling eink display and alarm
@@ -26,7 +26,7 @@ Core stuff <br />
 *	Mopidy and Mopidy Alarm Clock plugin configured and working, make sure your Spotify account and audio work <br />
 
 Sound system <br />
-Apart from the Raspberry itself, it is necessary to get some other things in order to get the sound working.<br />
+* Apart from the Raspberry itself, it is necessary to get some other things in order to get the sound working.<br />
 In my case that meant: <br />
 *	USB hub + Wifi dongle as Raspberry Pi Zero doesn’t have wifi <br />
 *	DAC (originally, I intended to use a cheap 1 USD USB sound card as dac but I had issues with noise) <br />
@@ -54,7 +54,7 @@ I'm attaching an SVG file created in Inscape with the box design I use. Laser cu
 
 ## Known, expected issues and to-dos <br />
 *	I’m sure that there’re some issues with getting the playlist name correctly displayed, especially when foreign accents are used. I implemented a function to remove the ones used in Czech language as I didn’t want to waste time trying to import any fonts to the E-ink display. <br />
-*       I'd like to add an equalizer to tune up the sound a bit. However this has turned out to be a bit of a hassle so far.
+* I'd like to add an equalizer to tune up the sound a bit. However this has turned out to be a bit of a hassle so far.
 
 ## How does it work <br />
 The whole thing is divided into two parts: the day version and night version. The “Day” version displays clock, current date, day of week and weather information. The “night” version displays information about Spotify alarm. <br />
