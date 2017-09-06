@@ -55,6 +55,8 @@ I'm attaching an SVG file created in Inscape with the box design I use. Laser cu
 30th July - added support for alarm restoration if RPI is rebooted, clearer code, other fixes <br />
 19th August - added sound system info <br />
 
-![alt text](https://github.com/generalStepes/Waveshare-eink-raspberry/blob/master/img/weather.jpg?raw=true)
-![alt text](https://github.com/generalStepes/Waveshare-eink-raspberry/blob/master/img/spotify.jpg?raw=true)
+![alt text](https://github.com/generalStepes/Waveshare-eink-raspberry/blob/master/img/front.jpg?raw=true)
+![alt text](https://github.com/generalStepes/Waveshare-eink-raspberry/blob/master/img/side.jpg?raw=true)
+![alt text](https://github.com/generalStepes/Waveshare-eink-raspberry/blob/master/img/up.jpg?raw=true)
+![alt text](https://github.com/generalStepes/Waveshare-eink-raspberry/blob/master/img/inside.jpg?raw=true)
 
