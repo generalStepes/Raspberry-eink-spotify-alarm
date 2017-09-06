@@ -36,7 +36,7 @@ The whole thing is divided into two parts: the day version and night version. Th
 *	Spotify is provided by Mopidy, alarm clock capabilities by Mopidy Alarm Clock plugin: https://github.com/DavisNT/mopidy-alarmclock. <br />
 *	The tricky part was how to know if there’s an alarm set up. I just fetch the webpage (e.g. http://192.168.2.110:6690/alarmclock/) and check if content is more than 3000 bytes. I’m able to tell if there’s an alarm set up or not as the page size differs significantly. Nothing to be proud about, but if it looks stupid and it works, it ain’t stupid, right? :-D <br />
 *	If there’s an alarm set up, I parse the downloaded webpage and find strings for the time and playlist, which then get displayed. <br />
-*	In case RPI is rebooted, alarm is restored from the "alarmLog" file
+*	In case RPI is rebooted, alarm is restored from the "alarmLog" file. <br />
 
 ## How to make it work <br />
 After fulfilling the prerequisites, there’re basically just few things that need to be modified in the python script. <br />
@@ -45,10 +45,11 @@ After fulfilling the prerequisites, there’re basically just few things that ne
 
 I’ve attached icons that I already processed myself, they’re cropped, converted and are verified to be working. <br />
 
+## Box & Design <br />
+I'm attaching an SVG file created in Inscape with the box design I use. Laser cutter Trotec Speedy 300 was used for the creation. <br />
+
 ## Known, expected issues and to-dos <br />
 *	I’m sure that there’re some issues with getting the playlist name correctly displayed, especially when foreign accents are used. I implemented a function to remove the ones used in Czech language as I didn’t want to waste time trying to import any fonts to the E-ink display. <br />
-*	I would like to add a button capability to stop the alarm when the button is pressed - already done, not uploaded yet <br />
-* Box design as I am going to laser cut a box for the whole thingy <br />
 
 ## Changelog <br />
 30th July - added support for alarm restoration if RPI is rebooted, clearer code, other fixes <br />
