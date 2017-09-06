@@ -1,0 +1,60 @@
+#!/usr/bin/env python2.7
+  
+# script by Alex Eames http://RasPi.tv  
+# http://brruchstuecke.blogspot.cz/2014/08/button-press-with-python-gpio-on.html
+
+  
+from datetime import datetime
+import RPi.GPIO as GPIO  
+import os
+import mpd
+import sys
+GPIO.setmode(GPIO.BCM)  
+import datetime
+
+#mopidy port
+mopidyPort = "6690"
+
+
+#alarmLog file location, change if necessary
+alarmLogPlaylistLocation = "/home/pi/alarmLogPlaylist"
+alarmLogLocation = "/home/pi/alarmLog"  
+ 
+GPIO.setup(25, GPIO.IN, pull_up_down=GPIO.PUD_UP)  
+try:  
+    print "Waiting for falling edge on port 25"
+    GPIO.wait_for_edge(25, GPIO.FALLING)
+    client = mpd.MPDClient(use_unicode=True)
+    client.connect("127.0.0.1", 6600)
+    print client.status()
+    if client.status()['state'] in ('play', 'pause'):
+        client.stop()
+
+    now = datetime.datetime.now() + datetime.timedelta(minutes=15)
+    playlistHour = (str(now.hour).zfill(2) + ":" + str(now.minute).zfill(2))
+    F = open(alarmLogPlaylistLocation,"r")
+    playlistName =  F.readline().rstrip()  
+    print playlistName
+    F.close()    
+
+    
+    try:
+      os.remove(alarmLogLocation)
+    except:
+      pass
+    F = open(alarmLogLocation,"w")
+    F.write(playlistHour)
+    F.write("\n")
+    F.write(playlistName)
+    F.write("\n")
+    F.write("true")
+    F.close()
+  
+
+except KeyboardInterrupt:  
+    GPIO.cleanup()       # clean up GPIO on CTRL+C exit    
+GPIO.cleanup()           # clean up GPIO on normal exit   
+
+python = sys.executable
+os.execl(python, python, *sys.argv)
+

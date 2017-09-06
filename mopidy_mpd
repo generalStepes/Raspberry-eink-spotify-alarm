@@ -1,0 +1,41 @@
+#!/usr/bin/env python2.7  
+# script by Alex Eames http://RasPi.tv  
+# http://brruchstuecke.blogspot.cz/2014/08/button-press-with-python-gpio-on.html
+
+  
+from datetime import datetime
+import RPi.GPIO as GPIO  
+import os
+import mpd
+import sys
+import httplib2
+GPIO.setmode(GPIO.BCM)  
+
+
+#mopidy port
+mopidyPort = "6690"
+
+  
+ 
+GPIO.setup(24, GPIO.IN, pull_up_down=GPIO.PUD_UP)  
+try:  
+    print "Waiting for falling edge on port 24"  
+    GPIO.wait_for_edge(24, GPIO.FALLING)  
+    print str(datetime.now())
+    client = mpd.MPDClient(use_unicode=True)
+    client.connect("127.0.0.1", 6600)
+    print client.status()
+    if client.status()['state'] in ('play', 'pause'):
+        client.stop()  
+    h = httplib2.Http(".cache")
+    resp, content = h.request("http://127.0.0.1:" + mopidyPort + "/alarmclock/cancel/", "GET")
+    headers={'cache-control':'no-cache'}    
+    
+
+except KeyboardInterrupt:  
+    GPIO.cleanup()       # clean up GPIO on CTRL+C exit    
+GPIO.cleanup()           # clean up GPIO on normal exit   
+
+python = sys.executable
+os.execl(python, python, *sys.argv)
+
