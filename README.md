@@ -43,7 +43,7 @@ After fulfilling the prerequisites, there’re basically just few things that ne
 I’ve attached icons that I already processed myself, they’re cropped, converted and are verified to be working. <br />
 
 ## Box & Design <br />
-I'm attaching an SVG file created in Inscape with the box design I use. Laser cutter Trotec Speedy 300 was used for the creation. <br />
+I'm attaching an SVG file created in Inscape with the box design I use. Laser cutter Trotec Speedy 300 was used for the creation together with a 4 mm poplar plywood.<br />
 
 ## Optional stuff <br />
 * Amp Relay - I've added an amp relay, which turns on amp when music is played and turns it off after 30 seconds of inacitivity. The script can be found in the **autoamp** file (not that you'll likely have to modify the GPIO pin). Original source is: http://www.runeaudio.com/forum/auto-amplifier-on-off-t928.html - you can also find there a guide how to set it up as a service.
