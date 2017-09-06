@@ -21,11 +21,15 @@ import struct
 #alarmLog file location, change if necessary
 alarmLogLocation = "/home/pi/alarmLog"
 
+#alarmLog file location, change if necessary
+alarmLogPlaylistLocation = "/home/pi/alarmLogPlaylist"
+
+
 #for which city should the forecast be fetched
 forecastLocation = "Brno,cz"
 
 #apikey for OWM
-apiKey = 'enter you apikey'
+apiKey = 'APIKEY'
 
 #gpio pin number where wakeup wire is connected
 GPIOPin = 12
@@ -158,12 +162,14 @@ def readAlarmLog():
       F = open(alarmLogLocation,"r")
       playlistHour = F.readline().rstrip()
       playlistName =  F.readline().rstrip()
+      buttonPressedCheck = F.readline().rstrip()
+      F.close()
       #find encoded playlist name
       playlistEndLocation = globalContent.find(playlistName)
       playlistStartLocation = globalContent[0:playlistEndLocation].rfind("spotify")
       playlistEncoded = globalContent[playlistStartLocation:playlistEndLocation-2]
       #re-set the alarm if low uptime indicates that rpi has been rebooted recently, i.e. in 300 seconds
-      if uptime3() < 300:
+      if (uptime3() < 300) or (buttonPressedCheck == "true"):
          r = requests.post("http://127.0.0.1:" + mopidyPort + "/alarmclock/set/", data={'time': playlistHour, 'playlist': playlistEncoded})
          alarmTime = removeChars(playlistHour, playlistName)
          return (alarmTime)
@@ -175,10 +181,13 @@ def readAlarmLog():
 
 def removeChars(alarmTime):
    if alarmTime[0]:
+      F = open(alarmLogPlaylistLocation,"w")
+      F.write(alarmTime[1])
       F = open(alarmLogLocation,"w")
       F.write(alarmTime[0])
       F.write("\n")
       F.write(alarmTime[1])
+      F.close()
    alarmTime[1] = string.replace(alarmTime[1], "&amp;", "&")
    #crashes with that type of dash
    alarmTime[1] = string.replace(alarmTime[1], "–", "-")
@@ -268,5 +277,5 @@ if __name__=="__main__":
     epd_halt()                              # put EPD to sleep. to wake up pin by physical pin only
     epd_disconnect()
 
-GPIO.output(12, 0)       # set port/pin value to 1/GPIO.LOW
+GPIO.output(GPIOPin, 0)       # set port/pin value to 1/GPIO.LOW
    
