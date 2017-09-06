@@ -1,0 +1,45 @@
+#!/bin/bash
+
+# This Script is to read the Alsa Sound State and Automatcally
+# swing a GPIO pin to allow auto switch on / off of an external
+# amplifier, its crude dirty and badly written any sugestions
+# or criticism welcome
+#http://www.runeaudio.com/forum/auto-amplifier-on-off-t928.htmlhttp://www.runeaudio.com/forum/auto-amplifier-on-off-t928.html
+# Trevor Cockayne trevoml@gmail.com
+
+
+
+#   Exports pin to userspace
+echo "23" > /sys/class/gpio/export
+
+# Sets pin 23 as an output
+echo "out" > /sys/class/gpio/gpio23/direction
+
+
+count=0
+
+time=30
+
+let count=$time
+
+for (( ; ; ))
+        do
+                if grep -q "closed" /proc/asound/card1/pcm0p/sub0/hw_params; then
+#                       echo "DAC IDLE"
+                        let "count++"
+                else
+#                       echo "DAC Playing"
+                        count=0
+        fi
+                if [[ $count -gt $time || $count == $time ]]
+                        then
+#                               echo "Amp Off"
+                                echo "1" > /sys/class/gpio/gpio23/value
+                                count=$time
+                        else
+#                               echo "Amp ON"
+                                echo "0" > /sys/class/gpio/gpio23/value
+        fi
+# echo $count
+sleep 1
+done

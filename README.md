@@ -1,4 +1,4 @@
-
+﻿
 # Raspberry E ink clock & Spotify alarm
 Disclaimer: The documentation was intended mainly for my personal use, but as I didn’t find any other similar project, I decided to publish it.
 
@@ -47,6 +47,9 @@ I’ve attached icons that I already processed myself, they’re cropped, conver
 
 ## Box & Design <br />
 I'm attaching an SVG file created in Inscape with the box design I use. Laser cutter Trotec Speedy 300 was used for the creation. <br />
+
+## Optional stuff <br />
+* Amp Relay - I've added an amp relay, which turns on amp when music is played and turns it off after 30 seconds of inacitivity. The script can be found in the **autoamp** file (not that you'll likely have to modify the GPIO pin). Original source is: http://www.runeaudio.com/forum/auto-amplifier-on-off-t928.html - you can also find there a guide how to set it up as a service.
 
 ## Known, expected issues and to-dos <br />
 *	I’m sure that there’re some issues with getting the playlist name correctly displayed, especially when foreign accents are used. I implemented a function to remove the ones used in Czech language as I didn’t want to waste time trying to import any fonts to the E-ink display. <br />
