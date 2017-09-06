@@ -1,6 +1,5 @@
 ﻿
 # Raspberry E ink clock & Spotify alarm
-Disclaimer: The documentation was intended mainly for my personal use, but as I didn’t find any other similar project, I decided to publish it.
 
 ## Prerequisites <br />
 
