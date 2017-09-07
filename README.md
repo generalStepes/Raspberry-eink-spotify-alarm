@@ -4,10 +4,10 @@
 ## Prerequisites <br />
 
 * Files description: <br />
-  * pialarm.py - the core file handling eink display and alarm
-  * autoamp - script for switch the amp relay on and off
+  * pialarm.py - core file handling eink display and alarm
+  * autoamp - script for switching the amp relay on and off
   * snooze_mpd - snooze script - "red button"
-  * mopidy_mpd - turn off the alarm script - "green button"  
+  * mopidy_mpd - turn off script - "green button"  
   * cron - copy of my cron file scheduling jobs for display, buttons and wifi dongle (to keep it alive)
   * box.svg - Inkscape file with the box design
   * weather_icons.tar - weather icons
@@ -47,7 +47,7 @@ I'm attaching an SVG file created in Inscape with the box design I use. Laser cu
 
 ## Optional stuff <br />
 * Amp Relay - I've added an amp relay, which turns on amp when music is played and turns it off after 30 seconds of inacitivity. The script can be found in the **autoamp** file (not that you'll likely have to modify the GPIO pin). Original source is: http://www.runeaudio.com/forum/auto-amplifier-on-off-t928.html - you can also find there a guide how to set it up as a service.
-* Spotify Connect - I reccomend to install a Spotify connect client (e.g. https://github.com/dtcooper/raspotify), so that you can use this bedclock as a wireless Spotify speaker.
+* Spotify Connect - I reccomend to install a Spotify connect client (e.g. https://github.com/dtcooper/raspotify), so that you can use this bedside clock as a wireless Spotify speaker.
 * Buttons - I'm using two buttons - red one for snoozing and a green one to turn the alarm off. Also pressing the red one whilst there's no alarm set up, will set up an alarm in 15 minutes. Note that the display has to be refreshed twice to react to button press. Also don't forger to change GPIO pin number if necessary.
 .
 
