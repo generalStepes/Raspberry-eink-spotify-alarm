@@ -28,11 +28,11 @@ Sound system <br />
 * Apart from the Raspberry itself, it is necessary to get some other things in order to get the sound working.<br />
 In my case that meant: <br />
 *	USB hub + Wifi dongle as Raspberry Pi Zero doesn’t have wifi <br />
-*	DAC (originally, I intended to use a cheap 1 USD USB sound card as dac but I had issues with noise) <br />
+*	DAC <br />
 *	Amplifier – I’m using a cheap 2x3 W stereo amp based on pam8403 chip, powered on 3,3 V <br />
 *	Speakers – two 9 x 5 cm speakers <br />
 
-* Ground loop isolator – after putting all the stuff together I encountered some serious issues with noise – I could hear the power supply, wifi dongle and CPU in speakers. After eliminating other potential causes, only the amp and its poor electric design was left. As I didn’t want to get another one, I bought a ground loop isolator (specifically Audac TR-2070), which solved most of the noise issues. The rest got solved by powering the amp on 3,3 V instead of 5 V (powered directly from RPI GPIO pins). <br />
+* Ground loop isolator – after putting all the stuff together I encountered some serious issues with noise – I could hear the power supply, wifi dongle and CPU in speakers. Thus I bought a ground loop isolator (specifically Audac TR-2070), which solved most of the noise issues. The rest got solved by powering the amp on 3,3 V instead of 5 V (powered directly from RPI GPIO pins). <br />
 
 
 ## How to make it work <br />
@@ -70,9 +70,11 @@ The whole thing is divided into two parts: the day version and night version. Th
 ## Changelog <br />
 30th July - added support for alarm restoration if RPI is rebooted, clearer code, other fixes <br />
 19th August - added sound system info <br />
-6th September - added box info and new photos
+6th September - added box info and new photos <br />
+12th September - added GPIOs layout
 
 ![alt text](https://github.com/generalStepes/Waveshare-eink-raspberry/blob/master/img/front.jpg?raw=true)
+![alt text](https://github.com/generalStepes/Waveshare-eink-raspberry/blob/master/img/gpios.svg?raw=true)
 ![alt text](https://github.com/generalStepes/Waveshare-eink-raspberry/blob/master/img/side.jpg?raw=true)
 ![alt text](https://github.com/generalStepes/Waveshare-eink-raspberry/blob/master/img/up.jpg?raw=true)
 ![alt text](https://github.com/generalStepes/Waveshare-eink-raspberry/blob/master/img/inside.jpg?raw=true)
