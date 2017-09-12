@@ -34,8 +34,10 @@ In my case that meant: <br />
 
 * Ground loop isolator – after putting all the stuff together I encountered some serious issues with noise – I could hear the power supply, wifi dongle and CPU in speakers. Thus I bought a ground loop isolator (specifically Audac TR-2070), which solved most of the noise issues. The rest got solved by powering the amp on 3,3 V instead of 5 V (powered directly from RPI GPIO pins). <br />
 
+## GPIOs Layout <br />
+GPIOs layout as I'm using them can be found here: https://github.com/generalStepes/Waveshare-eink-raspberry/blob/master/img/gpios.svg
 
-## How to make it work <br />
+
 After fulfilling the prerequisites, there’re basically just few things that need to be modified in the python script. <br />
 *	Change GPIO pin number, url where Mopidy runs, OWM api key and the location where alarmLog should be saved if necessary <br />
 *	It order to get the icons work, copy them on FAT 32 formatted memory card, insert the card into the display and uncomment the epd_set_memory_sd(), epd_import_pic() and edp_set_memory_nand() parts in the script, wait for a minute or run the script manually. After that the icons should work and you can remove these parts. <br />
@@ -74,7 +76,6 @@ The whole thing is divided into two parts: the day version and night version. Th
 12th September - added GPIOs layout
 
 ![alt text](https://github.com/generalStepes/Waveshare-eink-raspberry/blob/master/img/front.jpg?raw=true)
-![alt text](https://github.com/generalStepes/Waveshare-eink-raspberry/blob/master/img/gpios.svg?raw=true)
 ![alt text](https://github.com/generalStepes/Waveshare-eink-raspberry/blob/master/img/side.jpg?raw=true)
 ![alt text](https://github.com/generalStepes/Waveshare-eink-raspberry/blob/master/img/up.jpg?raw=true)
 ![alt text](https://github.com/generalStepes/Waveshare-eink-raspberry/blob/master/img/inside.jpg?raw=true)
